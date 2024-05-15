@@ -44,11 +44,13 @@ class RegisteredUserController extends Controller
             $avatarPath = 'images/avatar-default.png';
         }
 
+    
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'occupation' => $request->occupation,
-            'avatar' => $request->avatarPath,
+            'avatar' => $avatarPath,
             'password' => Hash::make($request->password),
         ]);
 

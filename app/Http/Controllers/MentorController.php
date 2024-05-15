@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mentor;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MentorController extends Controller
 {
@@ -13,6 +14,11 @@ class MentorController extends Controller
     public function index()
     {
         //
+        $mentors = Mentor::orderByDesc('id')->paginate(4);
+
+        return Inertia::render('Dashboard/Admin/Mentors/Index', [
+            'mentors' => $mentors
+        ]);
     }
 
     /**

@@ -4,7 +4,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -21,12 +21,6 @@ export default function Register() {
             reset("password", "password_confirmation");
         };
     }, []);
-
-    const handleAvatarChange = (e) => {
-        if (e.target.files) {
-            setData("avatar", e.target.files[0]);
-        }
-    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -95,8 +89,9 @@ export default function Register() {
                         id="avatarPath"
                         type="file"
                         name="avatar"
+                        // value={data?.avatar?.file}
                         className="block w-full mt-1"
-                        onChange={handleAvatarChange}
+                        onChange={(e) => setData("avatar", e.target.files[0])}
                         required
                     />
 
