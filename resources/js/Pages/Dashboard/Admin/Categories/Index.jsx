@@ -38,7 +38,7 @@ export default function Index({ categories, auth }) {
                     <h2 className="text-xl font-bold">Manage Categories</h2>
                     <Button
                         onClick={() => openModal()}
-                        classname="text-lg font-medium text-white bg-primary"
+                        classname="h-8 text-lg font-medium text-white bg-primary"
                     >
                         Add New
                     </Button>
