@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CourseController extends Controller
 {
@@ -13,6 +15,20 @@ class CourseController extends Controller
     public function index()
     {
         //
+        $user = Auth::user();
+        $query = Course::with(['category', 'mentor', 'students'])->orderByDesc('id');
+
+        if($user->hasRole('mentor')) {
+            $query->whereHas('mentor', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
+        $courses = $query->paginate(10);
+
+        return Inertia::render('Dashboard/Admin/Courses/Index', [
+            'courses' => $courses
+        ]);
     }
 
     /**

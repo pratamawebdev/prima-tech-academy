@@ -43,22 +43,12 @@ export default function Index({ categories, auth, sortOrder }) {
             <section className="flex flex-col w-full min-h-screen gap-8 p-8 bg-white rounded-3xl">
                 <div className="flex flex-col gap-4 md:items-center md:flex-row md:justify-between">
                     <h2 className="text-xl font-bold">Manage Categories</h2>
-                    <div className="flex items-center gap-4">
-                        <select
-                            value={sortOrder}
-                            onChange={handleSortChange}
-                            className="form-select p-2 border rounded-md"
-                        >
-                            <option value="desc">Terbaru</option>
-                            <option value="asc">Terlama</option>
-                        </select>
-                        <Button
-                            onClick={() => openModal()}
-                            classname="text-lg font-medium text-white bg-primary"
-                        >
-                            Add New
-                        </Button>
-                    </div>
+                    <Button
+                        onClick={() => openModal()}
+                        classname="h-8 text-lg font-medium text-white bg-primary"
+                    >
+                        Add New
+                    </Button>
                 </div>
                 <div className="flex flex-col gap-4">
                     {categories?.data?.map((category) => {

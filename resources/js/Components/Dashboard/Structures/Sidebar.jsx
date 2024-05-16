@@ -14,11 +14,6 @@ export default function Sidebar({ isSidebarOpen, handleCloseSidebar }) {
                     href="/"
                     className="flex items-center justify-center px-4 py-10 border-b-gray-800"
                 >
-                    {/* <img
-                        src="../images/logo/logo.png"
-                        alt=""
-                        className="object-cover w-8 h-8 rounded"
-                    /> */}
                     <span className="text-2xl font-bold text-white">PTA</span>
                 </Link>
                 <div className="flex flex-col gap-8 mt-8">
