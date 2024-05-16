@@ -16,13 +16,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $categories = Category::orderByDesc('id')->paginate(4);
+        $sortOrder = $request->get('sort','desc');
+        if(!in_array($sortOrder,['asc','desc'])){
+            $sortOrder='desc';
+        }
+        $categories = Category::orderBy('created_at', $sortOrder)->paginate(4);
+        // $categories = Category::orderByDesc('id')->paginate(4);
 
         return Inertia::render('Dashboard/Admin/Categories/Index', [
-            'categories' => $categories
+            'categories' => $categories,
+            'sortOrder'=>$sortOrder
+
         ]);
 
         // return Inertia::render('Admin/Categories/Index', compact('categories'));
@@ -42,7 +48,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest  $request)
     {
-           
+
         // if($request->hasFile('icon')) {
         //     $iconPath = $request->file('icon')->store('icons', 'public');
         //     $validated['icon'] = $iconPath;
@@ -59,9 +65,9 @@ class CategoryController extends Controller
         // ]);
 
         $category = DB::transaction(function () use ($request) {
-            
+
             $validated = $request->validated();
-            
+
             if ($request->hasFile('icon')) {
                 $iconPath = $request->file('icon')->store('icons', 'public');
                 $validated['icon'] = $iconPath;
@@ -72,7 +78,7 @@ class CategoryController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
             $category = Category::create($validated);
         });
-    
+
         return redirect()->route('dashboard.admin.categories.index');
     }
 
@@ -102,7 +108,7 @@ class CategoryController extends Controller
 {
     DB::transaction(function () use ($request, $category) {
         $validated = $request->validated();
-        
+
         if ($request->hasFile('icon')) {
             // Delete the old icon if it exists and is not the default icon
             if ($category->icon && $category->icon != 'images/avatar-default.png') {

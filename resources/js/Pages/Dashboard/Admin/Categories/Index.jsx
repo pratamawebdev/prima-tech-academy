@@ -5,10 +5,10 @@ import Modal from "@/Components/Modal";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { confirmDeleteAlert } from "@/utils/confirmDeleteAlert";
 import { formatDate } from "@/utils/formatDate";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Index({ categories, auth }) {
+export default function Index({ categories, auth, sortOrder }) {
     const [open, setOpen] = useState(false);
     const [editCategory, setEditCategory] = useState(null);
     const closeModal = () => setOpen(false);
@@ -31,17 +31,34 @@ export default function Index({ categories, auth }) {
     const showAlertDelete = (category) => {
         confirmDeleteAlert(handleDelete, category);
     };
+
+    const handleSortChange = (event) => {
+        const sort = event.target.value;
+        // Redirect to the same page with the new sort order
+        window.location.href = route('dashboard.admin.categories.index', { sort });
+    };
+
     return (
         <DashboardLayout titleNavbar={"Categories"} user={auth.user}>
             <section className="flex flex-col w-full min-h-screen gap-8 p-8 bg-white rounded-3xl">
                 <div className="flex flex-col gap-4 md:items-center md:flex-row md:justify-between">
                     <h2 className="text-xl font-bold">Manage Categories</h2>
-                    <Button
-                        onClick={() => openModal()}
-                        classname="text-lg font-medium text-white bg-primary"
-                    >
-                        Add New
-                    </Button>
+                    <div className="flex items-center gap-4">
+                        <select
+                            value={sortOrder}
+                            onChange={handleSortChange}
+                            className="form-select p-2 border rounded-md"
+                        >
+                            <option value="desc">Terbaru</option>
+                            <option value="asc">Terlama</option>
+                        </select>
+                        <Button
+                            onClick={() => openModal()}
+                            classname="text-lg font-medium text-white bg-primary"
+                        >
+                            Add New
+                        </Button>
+                    </div>
                 </div>
                 <div className="flex flex-col gap-4">
                     {categories?.data?.map((category) => {
@@ -52,7 +69,7 @@ export default function Index({ categories, auth }) {
                             >
                                 <div className="flex flex-col md:flex-row md:items-center gap-2 md:w-[200px]">
                                     <img
-                                        src={`/storage/${category.icon}`}
+                                        src={`/icons/${category.icon}`}
                                         alt={`icon ${category.name}`}
                                         className="lg:rounded-full lg:border-2 object-cover w-full h-28 rounded-lg md:min-w-[90px] md:max-w-[90px] md:h-[90px] lg:min-w-[120px] lg:max-w-[120px] lg:h-[120px]  md:block"
                                     />
@@ -70,7 +87,7 @@ export default function Index({ categories, auth }) {
                                     <p className="font-medium text-black">
                                         Updated at:{" "}
                                         <span className="font-semibold">
-                                            {formatDate(category.created_at)}
+                                            {formatDate(category.updated_at)}
                                         </span>
                                     </p>
                                 </div>
