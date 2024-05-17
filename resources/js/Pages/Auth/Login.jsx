@@ -123,11 +123,14 @@ export default function Login({ status, canResetPassword }) {
                             key={index}
                             className="px-8 py-3 border border-gray-300"
                         >
+
+                        <a href="/auth/github">
                             <img
                                 src={item.src}
                                 alt={item.name}
-                                className="w-6"
+                                className="w-6 cursor-pointer"
                             />
+                        </a>
                         </div>
                     ))}
                 </div>

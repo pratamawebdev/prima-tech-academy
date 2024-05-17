@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\GithubController as AuthGithubController;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CourseVideoController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GithubController;
 use App\Http\Controllers\MentorController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseVideoController;
+use App\Http\Controllers\SubscribeTransactionController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -27,6 +30,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/details/{course:slug}', [HomeController::class, 'details'])->name('home.details');
 Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('home.category');
 Route::get('/pricing', [HomeController::class, 'pricing'])->name('home.pricing');
+
+Route::get('auth/github', [GithubController::class, 'redirectToProvider'])->name('github.login');
+Route::get('auth/github/callback', [GithubController::class, 'handleProviderCallback']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -60,4 +66,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

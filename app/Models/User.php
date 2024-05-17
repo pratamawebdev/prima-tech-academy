@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'occupation',
         'avatar',
+        'github_id', 'gambar',
     ];
 
     /**
@@ -49,22 +50,30 @@ class User extends Authenticatable
         ];
     }
 
-    public function courses() {
+    public function courses()
+    {
         return $this->belongsToMany(Course::class, 'course_students');
     }
 
-    public function subscribe_transactions () {
+    public function subscribe_transactions()
+    {
         return $this->hasMany(SubscribeTransaction::class);
     }
 
-    public function hasActiveSubscription () {
+    public function hasActiveSubscription()
+    {
         $latestSubscription = $this->subscribe_transactions()->where('is_paid', true)->latest('updated_at')->first();
 
-        if(!$latestSubscription) {
-        return false;
+        if (!$latestSubscription) {
+            return false;
         }
 
         $subscriptionEndDate = Carbon::parse($latestSubscription->subscription_start_date)->addMonths(1);
         return Carbon::now()->lessThanOrEqualTo($subscriptionEndDate);
+    }
+
+    public function github()
+    {
+        return $this->hasMany(Github::class);
     }
 }
