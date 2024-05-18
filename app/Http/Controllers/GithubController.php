@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class GithubController extends Controller
@@ -16,45 +17,30 @@ class GithubController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function redirectToProvider()
+    public function githubRedirect()
     {
         return Socialite::driver('github')->redirect();
     }
 
-    /**
-     * Obtain the user information from GitHub.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function handleProviderCallback()
+    public function githubCallback()
     {
         $githubUser = Socialite::driver('github')->user();
 
-        // Check if the user already exists
-        $user = User::where('email', $githubUser->getEmail())->first();
+        // dd($githubUser);
 
-        if ($user) {
-            // Update existing user details if necessary
-            $user->update([
-                'name' => $githubUser->getName(),
-                'github_id' => $githubUser->getId(),
-                'avatar' => $githubUser->getAvatar(),
-            ]);
-        } else {
-            // Create a new user if it doesn't exist
-            $user = User::create([
-                'name' => $githubUser->getName(),
-                'email' => $githubUser->getEmail(),
-                'password' => bcrypt(Str::random(24)), // Dummy password
-                'github_id' => $githubUser->getId(),
-                'avatar' => $githubUser->getAvatar(),
-            ]);
-        }
+        $githubUser = User::updateOrCreate([
+            'github_id' => $githubUser->id,
+        ], [
+            'name' => $githubUser->name,
+            'occupation' => $githubUser->nickname,
+            'avatar' => $githubUser->avatar,
+            'email' => $githubUser->email,
+            'password' => Hash::make($githubUser->password),
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
+        Auth::login($githubUser);
 
-        // Log the user in
-        Auth::login($user, true);
-
-        // Redirect to home or wherever you want
-        return redirect()->intended('/');
+        return redirect('/dashboard');
     }
 }

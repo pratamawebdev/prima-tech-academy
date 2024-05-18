@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('github_id')->nullable()->unique();
-            $table->string('gambar')->nullable();
+            $table->string('github_token')->nullable();
+            $table->string('github_refresh_token')->nullable();
         });
     }
 
@@ -24,7 +25,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('github_id');
-            $table->dropColumn('gambar');
+            $table->dropColumn('github_token');
+            $table->dropColumn('github_refresh_token');
         });
     }
 };

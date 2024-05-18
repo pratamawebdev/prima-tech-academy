@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\Auth\GithubController as AuthGithubController;
+use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\HomeController;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GithubController;
 use App\Http\Controllers\MentorController;
@@ -12,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\SubscribeTransactionController;
+use App\Http\Controllers\Auth\GithubController as AuthGithubController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -31,8 +35,9 @@ Route::get('/details/{course:slug}', [HomeController::class, 'details'])->name('
 Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('home.category');
 Route::get('/pricing', [HomeController::class, 'pricing'])->name('home.pricing');
 
-Route::get('auth/github', [GithubController::class, 'redirectToProvider'])->name('github.login');
-Route::get('auth/github/callback', [GithubController::class, 'handleProviderCallback']);
+Route::get('/auth/github/redirect', [GithubController::class, 'githubRedirect']);
+
+Route::get('/auth/github/callback', [GithubController::class, 'githubCallback']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

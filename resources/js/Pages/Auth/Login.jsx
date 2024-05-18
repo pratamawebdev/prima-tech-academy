@@ -124,7 +124,7 @@ export default function Login({ status, canResetPassword }) {
                             className="px-8 py-3 border border-gray-300"
                         >
 
-                        <a href="/auth/github">
+                        <a href="/auth/github/redirect">
                             <img
                                 src={item.src}
                                 alt={item.name}
