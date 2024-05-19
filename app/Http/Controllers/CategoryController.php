@@ -104,12 +104,10 @@ class CategoryController extends Controller
         $validated = $request->validated();
         
         if ($request->hasFile('icon')) {
-            // Delete the old icon if it exists and is not the default icon
             if ($category->icon && $category->icon != 'images/avatar-default.png') {
                 Storage::disk('public')->delete($category->icon);
             }
 
-            // Store the new icon
             $iconPath = $request->file('icon')->store('icons', 'public');
             $validated['icon'] = $iconPath;
         } else {

@@ -76,7 +76,12 @@ export default function Index({ mentors, auth }) {
                                                 </div>
                                             </div>
                                             <div>
-                                                <div className="font-bold">
+                                                <div
+                                                    className="font-bold tooltip"
+                                                    data-tip={
+                                                        mentor?.user?.name
+                                                    }
+                                                >
                                                     {truncateText(
                                                         mentor?.user?.name,
                                                         30
@@ -112,48 +117,6 @@ export default function Index({ mentors, auth }) {
                         })}
                     />
                 </div>
-                {/* <div className="w-full overflow-x-auto">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email Id</th>
-                                <th>Created At</th>
-                                <th>Status</th>
-                                <th>Assigned To</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            leads.map((l, k) => {
-                                return(
-                                    <tr key={k}>
-                                    <td>
-                                        <div className="flex items-center space-x-3">
-                                            <div className="avatar">
-                                                <div className="w-12 h-12 mask mask-squircle">
-                                                    <img src={l.avatar} alt="Avatar" />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className="font-bold">{l.first_name}</div>
-                                                <div className="text-sm opacity-50">{l.last_name}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{l.email}</td>
-                                    <td>{moment(new Date()).add(-5*(k+2), 'days').format("DD MMM YY")}</td>
-                                    <td>{getDummyStatus(k)}</td>
-                                    <td>{l.last_name}</td>
-                                    <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button></td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                    </table>
-                </div> */}
             </section>
             <Modal show={open} onClose={closeModal} maxWidth="lg">
                 <FormMentor closeModal={closeModal} />

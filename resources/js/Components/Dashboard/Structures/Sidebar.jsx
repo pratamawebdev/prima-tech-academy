@@ -2,7 +2,7 @@ import { menuSidebar } from "@/data";
 import SidebarList from "../Constructs/SidebarList";
 import { Link } from "@inertiajs/react";
 
-export default function Sidebar({ isSidebarOpen, handleCloseSidebar }) {
+export default function Sidebar({ isSidebarOpen, handleCloseSidebar, auth }) {
     return (
         <>
             <div
@@ -17,7 +17,7 @@ export default function Sidebar({ isSidebarOpen, handleCloseSidebar }) {
                     <span className="text-2xl font-bold text-white">PTA</span>
                 </Link>
                 <div className="flex flex-col gap-8 mt-8">
-                    <SidebarList data={menuSidebar} />
+                    <SidebarList data={menuSidebar} auth={auth} />
                 </div>
             </div>
             <div

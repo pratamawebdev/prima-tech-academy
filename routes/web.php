@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add/video/{course:id}', [CourseVideoController::class, 'create'])->middleware('role:mentor|owner')->name('course.add_video');
 
-        Route::get('/add/video/save/{course:id}', [CourseVideoController::class, 'store'])->middleware('role:mentor|owner')->name('course.add_video.save');
+        Route::post('/add/video/save/{course:id}', [CourseVideoController::class, 'store'])->middleware('role:mentor|owner')->name('course.add_video.save');
 
         Route::resource('course_videos', CourseVideoController::class)->middleware('role:owner|mentor');
     });

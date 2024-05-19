@@ -27,7 +27,7 @@ class UpdateCourseRequest extends FormRequest
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
             'category_id' => 'required|integer',
-            'thumbnail' => 'sometimes|image|mimes:jpeg,png,jpg,svg',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,svg',
             'course_keypoints.*' => 'required|string|max:255',
         ];
     }

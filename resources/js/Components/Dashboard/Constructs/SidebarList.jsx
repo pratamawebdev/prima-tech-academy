@@ -1,18 +1,27 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
-export default function SidebarList({ data }) {
+export default function SidebarList({ data, auth }) {
+    const location = usePage().url;
     return (
         <ul>
             {data?.map((item) => {
+                const active = location.startsWith(item.path);
+                const userRoleNames = auth?.roles?.map((role) => role.name);
+                const showNav = item.roles.some((role) =>
+                    userRoleNames.includes(role)
+                );
+
                 return (
                     <li
                         key={item.id}
-                        className="flex items-center justify-center mb-2"
+                        className={`items-center justify-center mb-2 ${
+                            showNav ? "flex" : "hidden"
+                        }`}
                     >
                         <Link
                             href={item.href}
                             className={`flex items-center px-2 py-2 mb-2 w-[80%] rounded-lg ${
-                                item.current && "bg-white bg-opacity-25"
+                                active && "bg-white bg-opacity-25"
                             }`}
                         >
                             <img

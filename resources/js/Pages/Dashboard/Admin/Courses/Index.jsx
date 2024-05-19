@@ -1,54 +1,43 @@
 import Table from "@/Components/Dashboard/Constructs/Table";
 import TableHeading from "@/Components/Dashboard/Elements/TableHeading";
-import FormMentor from "@/Components/Dashboard/Structures/FormMentor";
 import Button from "@/Components/Global/Elements/Button";
 import SearchBar from "@/Components/Global/Elements/SearchBar";
-import Modal from "@/Components/Modal";
-import { dataTheadTableMentors } from "@/data";
+import { dataTheadTableCourses } from "@/data";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { confirmDeleteAlert } from "@/utils/confirmDeleteAlert";
 import { formatDate } from "@/utils/formatDate";
 import { truncateText } from "@/utils/truncateText";
-import { useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { Link, useForm } from "@inertiajs/react";
 
 export default function Index({ courses, auth }) {
-    const [open, setOpen] = useState(false);
-    const closeModal = () => setOpen(false);
-    console.log(courses);
-
-    const openModal = () => {
-        setOpen(true);
-    };
-
-    const handleDelete = (mentor) => {
-        destroy(route("dashboard.admin.mentors.destroy", mentor), {
+    const handleDelete = (course) => {
+        destroy(route("dashboard.admin.courses.destroy", course), {
             onSuccess: () => {
-                console.log("Mentor deleted successfully");
+                console.log("course deleted successfully");
             },
         });
     };
 
     const { delete: destroy, processing } = useForm();
 
-    const showAlertDelete = (mentor) => {
-        confirmDeleteAlert(handleDelete, mentor);
+    const showAlertDelete = (course) => {
+        confirmDeleteAlert(handleDelete, course);
     };
     return (
-        <DashboardLayout titleNavbar={"Mentors"} user={auth.user}>
+        <DashboardLayout titleNavbar={"Courses"} user={auth.user}>
             <section className="flex flex-col w-full min-h-screen gap-8 p-8 bg-white rounded-3xl">
                 <div className="flex flex-col gap-4 md:items-center md:flex-row md:justify-between">
                     <SearchBar />
-                    <Button
-                        onClick={() => openModal()}
-                        classname="text-lg font-medium text-white bg-primary"
+                    <Link
+                        href={route("dashboard.admin.courses.create")}
+                        className="flex items-center justify-center px-4 py-2 text-lg font-medium text-white w-fit rounded-3xl bg-primary"
                     >
                         Add New
-                    </Button>
+                    </Link>
                 </div>
-                {/* <div className="w-full overflow-x-auto">
+                <div className="w-full overflow-x-auto">
                     <Table
-                        th={dataTheadTableMentors.map((item) => {
+                        th={dataTheadTableCourses.map((item) => {
                             return (
                                 <TableHeading
                                     key={item.id}
@@ -58,10 +47,10 @@ export default function Index({ courses, auth }) {
                                 </TableHeading>
                             );
                         })}
-                        td={mentors?.data?.map((mentor) => {
+                        td={courses?.data?.map((course) => {
                             return (
                                 <tr
-                                    key={mentor?.id}
+                                    key={course?.id}
                                     className="hover:bg-gray-100"
                                 >
                                     <td className="px-2 py-2  min-w-[200px] max-w-[300px] md:max-w-none">
@@ -69,7 +58,7 @@ export default function Index({ courses, auth }) {
                                             <div className="avatar">
                                                 <div className="w-12 h-12 border-2 rounded-full mask mask-squircle">
                                                     <img
-                                                        src={`/storage/${mentor?.user?.avatar}`}
+                                                        src={`/storage/${course?.thumbnail}`}
                                                         alt="Avatar"
                                                         className="border"
                                                     />
@@ -78,42 +67,52 @@ export default function Index({ courses, auth }) {
                                             <div>
                                                 <div className="font-bold">
                                                     {truncateText(
-                                                        mentor?.user?.name,
+                                                        course?.name,
                                                         30
                                                     )}
                                                 </div>
                                                 <div className="text-sm opacity-50">
-                                                    {mentor?.user?.occupation}
+                                                    {course?.slug}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-2 py-2 min-w-[200px] max-w-[300px] md:max-w-none">
-                                        {mentor?.user?.email}
+                                        {course?.category?.name}
+                                    </td>
+                                    <td className="px-2 py-2 min-w-[200px] max-w-[300px] md:max-w-none">
+                                        {course?.mentor?.user?.name}
                                     </td>
                                     <td className="px-2 py-2 min-w-[160px] max-w-[300px] md:max-w-none">
-                                        {formatDate(mentor?.created_at)}
-                                    </td>
-                                    <td className="px-2 py-2 min-w-[160px] max-w-[300px] md:max-w-none">
-                                        {formatDate(mentor?.updated_at)}
+                                        {formatDate(course?.created_at)}
                                     </td>
                                     <td className="px-2 py-2 min-w-[100px]">
-                                        <Button
-                                            onClick={() =>
-                                                showAlertDelete(mentor)
-                                            }
-                                            classname="font-medium text-white bg-red-500 text-md"
-                                        >
-                                            Delete
-                                        </Button>
+                                        <div className="flex items-center gap-2">
+                                            <Link
+                                                href={route(
+                                                    "dashboard.admin.courses.show",
+                                                    course
+                                                )}
+                                                className="flex items-center justify-center px-4 py-2 font-medium text-white bg-orange-500 w-fit rounded-3xl text-md"
+                                            >
+                                                Manage
+                                            </Link>
+                                            <Button
+                                                onClick={() =>
+                                                    showAlertDelete(course)
+                                                }
+                                                classname="font-medium text-white bg-red-500 text-md"
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             );
                         })}
                     />
-                </div> */}
+                </div>
             </section>
-            <Modal show={open} onClose={closeModal} maxWidth="lg"></Modal>
         </DashboardLayout>
     );
 }

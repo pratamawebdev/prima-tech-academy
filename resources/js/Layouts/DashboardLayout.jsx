@@ -3,10 +3,11 @@ import Sidebar from "../Components/Dashboard/Structures/Sidebar";
 import Navbar from "../Components/Dashboard/Structures/Navbar";
 
 export default function DashboardLayout({ children, user, titleNavbar }) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
         <div>
             <Sidebar
+                auth={user}
                 isSidebarOpen={isSidebarOpen}
                 handleCloseSidebar={() => setIsSidebarOpen(false)}
             />

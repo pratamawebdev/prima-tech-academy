@@ -2,7 +2,7 @@ import Dropdown from "@/Components/Dropdown";
 
 export default function Navbar({ toggleSidebar, user, titleNavbar }) {
     return (
-        <div className="z-30 flex items-center dark:bg-[#181818] justify-between w-full px-6 py-9 bg-secondary max-w-full">
+        <div className="z-30 flex items-center dark:bg-[#181818] justify-between w-full px-6 py-9 max-w-full">
             <div className="flex items-center gap-4">
                 <button
                     onClick={toggleSidebar}
@@ -46,7 +46,7 @@ export default function Navbar({ toggleSidebar, user, titleNavbar }) {
                                     <img
                                         src={`/storage/${user?.avatar}`}
                                         alt=""
-                                        className="w-8 h-8 border border-gray-800 rounded-full"
+                                        className="object-cover w-8 h-8 border border-gray-800 rounded-full"
                                     />
                                     <svg
                                         className="ms-2 -me-0.5 h-4 w-4"

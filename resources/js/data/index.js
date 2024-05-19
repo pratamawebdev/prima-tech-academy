@@ -3,28 +3,33 @@ export const menuSidebar = [
         id: 1,
         title: "Dashboard",
         href: route("dashboard"),
-        current: route().current("dashboard"),
+        // path: "/dashboard/admin",
         icon: "/images/icons/icon-home.svg",
+        roles: ["owner", "mentor"],
     },
-    // {
-    //     id: 2,
-    //     title: "Manage Courses",
-    //     href: route("admin.courses.index"),
-    //     icon: "/images/icons/icon-course.svg",
-    // },
+    {
+        id: 2,
+        title: "Manage Courses",
+        href: route("dashboard.admin.courses.index"),
+        path: "/dashboard/admin/courses",
+        icon: "/images/icons/icon-course.svg",
+        roles: ["mentor"],
+    },
     {
         id: 3,
         title: "Categories",
         href: route("dashboard.admin.categories.index"),
-        current: route().current("dashboard.admin.categories.index"),
+        path: "/dashboard/admin/categories",
         icon: "/images/icons/icon-category.svg",
+        roles: ["owner"],
     },
     {
         id: 4,
         title: "Manage Mentors",
         href: route("dashboard.admin.mentors.index"),
-        current: route().current("dashboard.admin.mentors.index"),
+        path: "/dashboard/admin/mentors",
         icon: "/images/icons/icon-mentor.svg",
+        roles: ["owner"],
     },
     // {
     //     id: 5,
@@ -55,6 +60,33 @@ export const dataTheadTableMentors = [
     {
         id: "4",
         name: "Updated At",
+        sortable: true,
+    },
+    {
+        id: "5",
+        name: "Action",
+        sortable: false,
+    },
+];
+
+export const dataTheadTableCourses = [
+    {
+        id: "1",
+        name: "Name",
+        sortable: true,
+    },
+    {
+        id: "2",
+        name: "Email",
+    },
+    {
+        id: "3",
+        name: "Mentor",
+        sortable: true,
+    },
+    {
+        id: "4",
+        name: "Created At",
         sortable: true,
     },
     {
