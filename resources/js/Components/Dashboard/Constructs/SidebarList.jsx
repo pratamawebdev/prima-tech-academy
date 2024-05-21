@@ -2,6 +2,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 export default function SidebarList({ data, auth }) {
     const location = usePage().url;
+    console.log(auth);
     return (
         <ul>
             {data?.map((item) => {

@@ -3,9 +3,9 @@ export const menuSidebar = [
         id: 1,
         title: "Dashboard",
         href: route("dashboard"),
-        // path: "/dashboard/admin",
+        path: "/dashboard",
         icon: "/images/icons/icon-home.svg",
-        roles: ["owner", "mentor"],
+        roles: ["owner", "mentor", "student"],
     },
     {
         id: 2,
@@ -31,12 +31,14 @@ export const menuSidebar = [
         icon: "/images/icons/icon-mentor.svg",
         roles: ["owner"],
     },
-    // {
-    //     id: 5,
-    //     title: "Manage Subscriptions",
-    //     path: "/subscriptions",
-    //     icon: "/images/icons/icon-subscription.svg",
-    // },
+    {
+        id: 5,
+        title: "Subscriptions",
+        href: route("dashboard.admin.subscribe-transactions.index"),
+        path: "/dashboard/admin/subscribe-transactions",
+        icon: "/images/icons/icon-subscription.svg",
+        roles: ["owner"],
+    },
 ];
 
 export const dataTheadTableMentors = [
@@ -59,11 +61,6 @@ export const dataTheadTableMentors = [
     },
     {
         id: "4",
-        name: "Updated At",
-        sortable: true,
-    },
-    {
-        id: "5",
         name: "Action",
         sortable: false,
     },
@@ -91,6 +88,39 @@ export const dataTheadTableCourses = [
     },
     {
         id: "5",
+        name: "Action",
+        sortable: false,
+    },
+];
+
+export const dataTheadTableTransactions = [
+    {
+        id: "1",
+        name: "Total Amount",
+        sortable: false,
+    },
+    {
+        id: "2",
+        name: "Checkout Date",
+        sortable: true,
+    },
+    {
+        id: "3",
+        name: "Subscription Start Date",
+        sortable: false,
+    },
+    {
+        id: "4",
+        name: "Status",
+        sortable: false,
+    },
+    {
+        id: "5",
+        name: "Student",
+        sortable: true,
+    },
+    {
+        id: "6",
         name: "Action",
         sortable: false,
     },

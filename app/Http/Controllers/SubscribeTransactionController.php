@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SubscribeTransaction;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SubscribeTransactionController extends Controller
 {
@@ -13,6 +16,11 @@ class SubscribeTransactionController extends Controller
     public function index()
     {
         //
+        $transactions = SubscribeTransaction::with(['user'])->orderByDesc('id')->get();
+
+        return Inertia::render('Dashboard/Admin/Transactions/Index', [
+            'transactions' => $transactions
+        ]);
     }
 
     /**
@@ -37,6 +45,11 @@ class SubscribeTransactionController extends Controller
     public function show(SubscribeTransaction $subscribeTransaction)
     {
         //
+      
+        $transaction = $subscribeTransaction::with(['user'])->find($subscribeTransaction->id);
+        return Inertia::render('Dashboard/Admin/Transactions/Show', [
+            'transaction' => $transaction
+        ]);
     }
 
     /**
@@ -53,6 +66,15 @@ class SubscribeTransactionController extends Controller
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
     {
         //
+        DB::transaction(function () use ($subscribeTransaction) {
+            
+            $subscribeTransaction->update([
+                'is_paid' => true,
+                'subscription_start_date' => Carbon::now(),
+            ]);
+        });
+
+        return redirect()->route('dashboard.admin.subscribe-transactions.index', $subscribeTransaction);
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\SubscribeTransactionController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,18 +21,10 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/dashboard/admin', function () {
-    return Inertia::render('Dashboard/Admin/Index');
-});
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/details/{course:slug}', [HomeController::class, 'details'])->name('home.details');
 Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('home.category');
 Route::get('/pricing', [HomeController::class, 'pricing'])->name('home.pricing');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource("courses", CourseController::class)->middleware('role:owner|mentor');
 
-        Route::resource('subscribe_transactions', SubscribeTransactionController::class)->middleware('role:owner');
+        Route::resource('subscribe-transactions', SubscribeTransactionController::class)->middleware('role:owner');
 
         Route::get('/add/video/{course:id}', [CourseVideoController::class, 'create'])->middleware('role:mentor|owner')->name('course.add_video');
 
@@ -58,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('course_videos', CourseVideoController::class)->middleware('role:owner|mentor');
     });
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../Components/Dashboard/Structures/Sidebar";
 import Navbar from "../Components/Dashboard/Structures/Navbar";
 
 export default function DashboardLayout({ children, user, titleNavbar }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    useEffect(() => {
+        const checkWindowSize = () => {
+            if (window.matchMedia("(min-width: 768px)").matches) {
+                setIsSidebarOpen(true);
+            } else {
+                setIsSidebarOpen(false);
+            }
+        };
+
+        checkWindowSize();
+
+        window.addEventListener("resize", checkWindowSize);
+
+        return () => {
+            window.removeEventListener("resize", checkWindowSize);
+        };
+    }, []);
+
     return (
         <div>
             <Sidebar
